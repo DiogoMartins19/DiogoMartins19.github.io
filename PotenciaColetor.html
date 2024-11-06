@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de Coletor Solar</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            max-width: 500px;
+            padding: 20px;
+            width: 100%;
+        }
+
+        h1 {
+            font-size: 1.5em;
+            color: #333;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        label {
+            font-weight: bold;
+            color: #555;
+            margin-top: 10px;
+            display: block;
+        }
+
+        input[type="number"] {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 1em;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #28a745;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            font-size: 1em;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #218838;
+        }
+
+        #resultado {
+            font-weight: bold;
+            color: #333;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .link-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .link-container a {
+            color: #007bff;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .link-container a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Calculadora de Coletor Solar</h1>
+        <label for="numPessoas">Número de pessoas:</label>
+        <input type="number" id="numPessoas" placeholder="Exemplo: 4">
+
+        <label for="volumeAgua">Volume de água por pessoa (L):</label>
+        <input type="number" id="volumeAgua" placeholder="Exemplo: 50">
+
+        <label for="tempInicial">Temperatura inicial da água (°C):</label>
+        <input type="number" id="tempInicial" placeholder="Exemplo: 20">
+
+        <label for="tempFinal">Temperatura final desejada (°C):</label>
+        <input type="number" id="tempFinal" placeholder="Exemplo: 60">
+
+        <label for="irradianciaSolarColetor">Irradiância solar média (kWh/m²):</label>
+        <input type="number" id="irradianciaSolarColetor" placeholder="Exemplo: 5">
+
+        <button onclick="calcularAreaColetor()">Calcular</button>
+
+        <p id="resultado"></p>
+
+        <div class="link-container">
+            <a href="FQ_Trabalho.html"><-Voltar</a>
+        </div>
+    </div>
+
+    <script>
+        function calcularAreaColetor() {
+            const numPessoas = parseFloat(document.getElementById('numPessoas').value);
+            const volumeAgua = parseFloat(document.getElementById('volumeAgua').value);
+            const tempInicial = parseFloat(document.getElementById('tempInicial').value);
+            const tempFinal = parseFloat(document.getElementById('tempFinal').value);
+            const irradianciaSolar = parseFloat(document.getElementById('irradianciaSolarColetor').value);
+
+            if (isNaN(numPessoas) || isNaN(volumeAgua) || isNaN(tempInicial) || isNaN(tempFinal) || isNaN(irradianciaSolar) ||
+                numPessoas <= 0 || volumeAgua <= 0 || irradianciaSolar <= 0 || tempFinal <= tempInicial) {
+                document.getElementById('resultado').innerText = "Por favor, preencha todos os campos corretamente.";
+                return;
+            }
+
+            const capacidadeTermicaAgua = 4184; // J/kg°C
+            const energiaNecessaria = numPessoas * volumeAgua * (tempFinal - tempInicial) * capacidadeTermicaAgua / 3600000; // Converter para kWh
+            const areaColetor = energiaNecessaria / irradianciaSolar;
+
+            document.getElementById('resultado').innerText = `A área necessária do coletor solar é: ${areaColetor.toFixed(2)} m².`;
+        }
+    </script>
+</body>
+
+</html>
